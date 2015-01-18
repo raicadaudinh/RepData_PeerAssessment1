@@ -370,12 +370,22 @@ head(activity)
 
 <p>Make a panel plot containing a time series plot (i.e. type = &ldquo;l&rdquo;) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data.</p>
 
-<pre><code class="r">    act1&lt;- activityNew[!u,]
-    act2&lt;- activityNew[u,]
-    pattWday&lt;- tapply(act1$step, act1$interval, mean)
-    pattWend&lt;- tapply(act2$step, act2$interval, mean)
-    ##Create multiple plot##
-    par(mfrow=c(2,1))
+<pre><code class="r">    pattWday&lt;- aggregate(activityNew$step, list(interval= activityNew$interval, 
+                                             weekend=activityNew$weekend==TRUE), 
+                    FUN= &quot;mean&quot;)
+    for (i in 1:nrow(pattWday)){
+        if (pattWday[i,2]==TRUE) {
+            pattWday[i,2]&lt;- &quot;weekend&quot;
+        }
+    else
+            pattWday[i,2]&lt;-&quot;weekday&quot;
+    }
+    library(lattice)
+    xyplot(pattWday$x~pattWday$interval|wk, data=pattWday, layout=c(1,2), 
+           type=&quot;l&quot;, xlab=&quot;interval&quot;, ylab=&quot;Number of step&quot;)
+</code></pre>
+
+<pre><code>## Error in eval(expr, envir, enclos): object &#39;wk&#39; not found
 </code></pre>
 
 </body>
