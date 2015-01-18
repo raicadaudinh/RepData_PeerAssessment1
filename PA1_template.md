@@ -179,10 +179,10 @@ Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minut
             pattWday[i,2]<-"weekday"
     }
     library(lattice)
-    xyplot(pattWday$x~pattWday$interval|wk, data=pattWday, layout=c(1,2), 
+    pattWday$wk<- as.factor(pattWday$weekend)
+    p<-xyplot(pattWday$x~pattWday$interval|wk, data=pattWday, layout=c(1,2), 
            type="l", xlab="interval", ylab="Number of step")
+    p
 ```
 
-```
-## Error in eval(expr, envir, enclos): object 'wk' not found
-```
+![plot of chunk lineplot2](figure/lineplot2-1.png) 
